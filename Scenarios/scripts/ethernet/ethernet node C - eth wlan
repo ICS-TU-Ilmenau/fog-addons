@@ -1,0 +1,14 @@
+#
+# Creates a single node C attached to two physical interfaces (ethernet and wlan). 
+#
+
+@ - create as asC
+switch asC
+
+create node C
+
+create ethernet eth eth0 eth0
+create ethernet wlan wlan0 wlan0
+
+connect C eth
+connect C wlan

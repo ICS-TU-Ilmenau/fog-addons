@@ -1,0 +1,52 @@
+#
+# Larger scenario for showing multipath demo
+# Scenario used in EuroView 2012
+#
+
+@ - create as default true
+switch default
+
+create node Sender all
+create node B all
+create node C all
+create node D all
+create node E all
+create node F all
+create node Receiver all
+create node H all
+
+create bus Link_AB
+create bus Link_BC
+create bus Link_AD
+create bus Link_DC
+
+create bus Link_CE
+create bus Link_BF
+
+create bus Link_EF
+create bus Link_FG
+create bus Link_EH
+create bus Link_HG
+
+connect Sender Link_AB
+connect B Link_BC
+connect Sender Link_AD
+connect D Link_DC
+connect B Link_AB
+connect C Link_BC
+connect D Link_AD
+connect C Link_DC
+
+connect C Link_CE
+connect B Link_BF
+connect E Link_CE
+connect F Link_BF
+
+connect E Link_EF
+connect F Link_FG
+connect E Link_EH
+connect H Link_HG
+connect F Link_EF
+connect Receiver Link_FG
+connect H Link_EH
+connect Receiver Link_HG

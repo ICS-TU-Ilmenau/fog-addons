@@ -1,0 +1,14 @@
+#
+# Creates a single node B attached to two physical Ethernet interfaces. 
+#
+
+@ - create as asB
+switch asB
+
+create node B
+
+create ethernet eth0 eth0 eth0
+create ethernet eth1 eth1 eth1
+
+connect B eth0
+connect B eth1

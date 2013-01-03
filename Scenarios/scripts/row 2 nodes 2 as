@@ -1,0 +1,17 @@
+#
+# Two nodes in row, each within its own autonomous system (with partial routing)
+#
+
+@ - create as as1 true
+switch as1
+create node A
+
+@ - create as as2 true
+switch as2
+create node B
+create bus bus
+
+connect B bus
+
+switch as1
+connect A bus

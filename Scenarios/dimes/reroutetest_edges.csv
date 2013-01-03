@@ -1,0 +1,9 @@
+Node1,Node2,InterAS
+node1,node2,0
+node2,node3,0
+node3,node6,0
+node1,node4,0
+node4,node5,0
+node5,node6,0
+node2,node5,0
+node4,node3,0

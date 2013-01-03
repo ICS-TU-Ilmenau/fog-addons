@@ -1,0 +1,21 @@
+#
+# Sets up a small test network with two nodes connected via dummy ethernet test devices.
+# Scenario for testing serialization of packets without having a really distributed setup.
+#
+
+@ - create as default
+switch default
+
+create node A
+create node B
+
+create ethernet eth1 in1 out1
+create ethernet eth2 out1 in1
+
+create ethernet eth3 in2 out2
+create ethernet eth4 out2 in2
+		
+connect A eth1
+connect A eth3
+connect B eth2
+connect B eth4

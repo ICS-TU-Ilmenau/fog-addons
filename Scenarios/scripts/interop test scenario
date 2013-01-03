@@ -1,0 +1,27 @@
+#
+# Line of 3 nodes with some test application for interoperability with IP
+#
+
+@ - create as default
+switch default
+
+create node A
+create node B
+create node C
+
+create bus bus_ab
+create bus bus_bc
+
+connect A bus_ab
+connect B bus_ab
+connect B bus_bc
+connect C bus_bc
+
+# start some test applications
+start App EchoServer A echome
+start App InterOpIP B
+start App EchoServer B FOGHTTP://echofoghttp
+start App EchoServer B VIDEO://echovideo
+start App MsgClient B http://www.tu-ilmenau.de
+start App MsgClient B ntp://de.pool.ntp.org
+start App MsgClient B http://141.24.203.73

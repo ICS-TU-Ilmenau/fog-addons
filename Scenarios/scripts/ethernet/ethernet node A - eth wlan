@@ -1,0 +1,14 @@
+#
+# Creates a single node A attached to two physical interfaces (ethernet and wlan). 
+#
+
+@ - create as asA
+switch asA
+
+create node A
+
+create ethernet eth eth0 eth0
+create ethernet wlan wlan0 wlan0
+
+connect A eth
+connect A wlan

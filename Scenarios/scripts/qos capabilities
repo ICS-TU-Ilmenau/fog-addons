@@ -1,0 +1,27 @@
+#
+# Test scenario with 4 nodes with different capabilites.
+# Links have different capabilities, too.
+#
+
+@ - create as default
+switch default
+
+create node A half
+create node B all
+create node C all
+create node D half
+
+# create bus <name> <bw> <delay> <loss rate>
+create bus busACLoss 100 5 10
+create bus busABNoLoss 100 5 0
+create bus busBDNoLoss 100 5 0
+
+connect A busABNoLoss
+connect B busABNoLoss
+connect B busBDNoLoss
+connect D busBDNoLoss
+connect A busACLoss
+connect C busACLoss
+
+# having a server for testing
+start App EchoServer B echo

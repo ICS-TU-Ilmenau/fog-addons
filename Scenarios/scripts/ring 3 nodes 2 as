@@ -1,0 +1,32 @@
+#
+# Ring with 3 nodes and 2 autonomous systems
+# AS:
+#   - as1 with A, B
+#   - as2 with C
+#
+
+@ - create as as1
+
+switch as1
+
+create node A
+create node B
+create bus busAB
+create bus busBC
+create bus busAC
+
+connect A busAB
+connect A busAC
+connect B busAB
+connect B busBC
+
+@ - create as as2
+switch as2
+
+create node C
+connect C busBC
+connect C busAC
+
+# having a server for testing
+switch as1
+start App EchoServer A echo

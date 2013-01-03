@@ -1,0 +1,26 @@
+#
+# Rerouting test scenario
+#
+
+@ - create as reroutetest
+switch reroutetest
+create node node1
+create node node2
+create node node3
+create node node4
+create node node5
+create bus bus1
+create bus bus2
+create bus bus3
+create bus bus4
+create bus bus5
+connect node1 bus1
+connect node2 bus1
+connect node2 bus2
+connect node3 bus2
+connect node2 bus3
+connect node4 bus3
+connect node3 bus4
+connect node5 bus4		
+connect node4 bus5
+connect node5 bus5

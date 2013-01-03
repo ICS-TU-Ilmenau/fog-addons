@@ -1,0 +1,26 @@
+inter-volatility-1-glp-0.2-0.05-inc-ht-pref.brite:
+number of nodes: 5000, number of edges: 6245
+GLP algorithm
+alpha = 0.2
+beta=0.05
+incremental growth
+heavy tailed placement
+connecto to preferred autonomous system
+
+inter-volatility-1-glp-0.45-0.64-inc-ht-pref.brite
+number of nodes: 5000, number of edges: 8974
+GLP algorithm
+alpha = 0.45
+beta=0.64
+incremental growth
+heavy tailed placement
+connecto to preferred autonomous system
+
+inter-volatility-1-glp-0.45-0.64-inc-rand-no_pref.brite
+number of nodes: 5000, number of edges: 8990
+GLP algorithm
+alpha = 0.45
+beta=0.64
+incremental growth
+RANDOM placement
+DO NOT connecto to preferred autonomous system

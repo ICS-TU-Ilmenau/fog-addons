@@ -1,0 +1,28 @@
+#
+# Scenario for the second host of a distributed simulation.
+# It contains only half of the simulation.
+# Due to the dependencies of the bus names, the first scenario has to be started first!
+#
+
+@ - create as AS_2
+switch AS_2
+
+create node D
+create node E
+create node F
+
+# create bus <name> <bw> <delay> <loss rate>
+create bus F_D 100 5 0
+create bus F_E 100 5 0
+
+connect D F_D
+connect F F_D
+connect E F_E
+connect F F_E
+
+# buses have been created by other script
+#create bus inter_as_1 100 5 0
+#create bus inter_as_2 100 5 0
+
+connect D inter_as_1
+connect E inter_as_2

@@ -1,0 +1,42 @@
+#
+# 4 nodes in row: A - B - C - D
+# Lossy link in the middle between B and C
+# Scenario was used for EuroView 2011 and CeBIT
+#
+# AS with partial routing services:
+#  - as1: A,B
+#  - as2: C,D 
+#
+
+# setup as1
+@ - create as as1 true
+switch as1
+
+create node A half
+create node B all
+create bus bus_ab
+
+connect A bus_ab
+connect B bus_ab
+
+# setup as2
+@ - create as as2 true
+switch as2
+
+create node C all
+create node D half
+create bus bus_cd
+
+connect C bus_cd
+connect D bus_cd
+
+# inter as link
+create bus bus_bc 1000 5 1
+connect C bus_bc
+
+switch as1
+connect B bus_bc
+start App EchoServer A echo
+
+# setup server
+switch as2

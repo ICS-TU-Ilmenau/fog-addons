@@ -1,0 +1,35 @@
+#
+# 4 nodes in row: A - B - C - D
+#
+# AS with partial routing services:
+#  - as1: A,B
+#  - as2: C,D 
+#
+
+# setup as1
+@ - create as as1 true
+switch as1
+
+create node A
+create node B
+create bus bus_ab
+
+connect A bus_ab
+connect B bus_ab
+
+# setup as2
+@ - create as as2 true
+switch as2
+
+create node C
+create bus bus_bc
+connect C bus_bc
+
+# connect both as
+switch as1
+connect B bus_bc
+
+# setup server
+switch as2
+start App EchoServer C echo
+	

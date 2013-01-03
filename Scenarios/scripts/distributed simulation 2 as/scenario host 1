@@ -1,0 +1,30 @@
+#
+# Scenario for the first host of a distributed simulation.
+# It contains only half of the simulation.
+# Due to the dependencies of the bus names, this scenario has to be started first!
+#
+
+@ - create as AS_1
+switch AS_1
+
+create node A
+create node B
+create node C
+
+# create bus <name> <bw> <delay> <loss rate>
+create bus A_B 100 5 0
+create bus A_C 100 5 0
+
+connect A A_B
+connect B A_B
+connect A A_C
+connect C A_C
+
+create bus inter_as_1 100 5 0
+create bus inter_as_2 100 5 0
+
+connect B inter_as_1
+connect C inter_as_2
+
+# having a server for testing
+start App EchoServer A echo
