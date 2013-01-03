@@ -10,7 +10,7 @@ It is available as open-source in the repository [ICS-TU-Ilmenau/fog](https://gi
 The repository for add-ons contains software and data files, which are helpful for working with FoGSiEm.
 In particular, the repository contains:
 * Scenario files
-  * Command files (batch files using the commands known from FoGSiEm)
+  * Script files (batch files using the commands known from FoGSiEm)
   * Example files from various network graph generators (e.g. BRITE)
   * Example files from Internet topology measurement projects (e.g. [DIMES](http://www.netdimes.org))
 * Tools for analysing the statistic files from FoGSiEm
