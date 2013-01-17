@@ -1,0 +1,6 @@
+This software uses the unmodified "lib/javacsv.jar" (v2.1).
+Is it provided by the Java CSV Library project.
+Its sources are available under the terms of the LGPL 2.
+The sources can be retrieved from:
+
+	http://sourceforge.net/projects/javacsv/
