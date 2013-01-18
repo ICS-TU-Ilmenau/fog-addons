@@ -25,27 +25,17 @@ public class NodeStatistics
 	
 	private static final String NEW_LINE = "\n";
 	
-	public static final String FILENAME_POSTFIX = "_node_statistics.csv";
-	
-	private static final String DEFAULT_NODE_PREFIX = "de.tuilmenau.ics.fog.topology.Node.";
-	
+	public static final String FILENAME_POSTFIX = "_nodes.csv";
 	
 	public static void main(String[] args)
 	{
-		if(args.length < 1) {
-			System.err.println("usage: NodeStatistics <file name> [<prefix of nodes (default: de.tuilmenau.ics.fog.topology.Node)]");
+		if(args.length < 2) {
+			System.err.println("usage: NodeStatistics <file name> <prefix of nodes>");
 			System.exit(1);
 		}
 		
 		try {
-			String prefix;
-			if(args.length >= 2) {
-				prefix = args[1];
-			} else {
-				prefix = DEFAULT_NODE_PREFIX;
-			}
-			
-			extractNodeStatistic(args[0], prefix);
+			extractNodeStatistic(args[0], args[1]);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
