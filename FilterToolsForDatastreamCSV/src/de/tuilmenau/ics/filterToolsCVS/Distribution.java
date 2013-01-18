@@ -155,9 +155,14 @@ public class Distribution
 		StringBuffer name = new StringBuffer();
 		java.util.Collections.sort(columns);
 		
-		for(String col : columns) {
-			name.append(col.replaceAll(REMOVE_STRING_IN_OUTPUT_FILENAME, ""));
-			name.append("_");
+		{
+			boolean first = true;
+			for(String col : columns) {
+				if(first) first = false;
+				else name.append("_");
+				
+				name.append(col.replaceAll(REMOVE_STRING_IN_OUTPUT_FILENAME, ""));
+			}
 		}
 		
 		String filename = baseFilename +" " +name.toString() +".csv";
