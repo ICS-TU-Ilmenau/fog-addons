@@ -33,6 +33,14 @@ public class Distribution
 	
 	private static final String NEW_LINE = "\n";
 	
+	private static final int MAX_FRACTION_DIGITS_IN_OUTPUT = 6;
+	
+	/**
+	 * Set from outside to reduce the length of the filename.
+	 * Esp. useful if subsequent tools are not able to handle long filenames.
+	 */
+	public static String REMOVE_STRING_IN_OUTPUT_FILENAME = null;  
+	
 
 	public static void main(String[] args)
 	{
@@ -58,7 +66,7 @@ public class Distribution
 			}
 		} else {
 			System.err.println("Calculated the distribution of one or more columns");
-			System.err.println("usage: <filename> <column1> [column2...]");
+			System.err.println("usage: <filename> <[+|-|%]column1> [[+|-|%]column2...]");
 		}
 	}
 	
@@ -78,22 +86,48 @@ public class Distribution
 			
 			while(csvIn.readRecord()) {
 				Double value = 0.0d;
+				Double alignment = 0.0d;
 				
 				lines[0]++;
 
 				// sum up the values of the mentioned columns
 				for(String column : columns) {
-					String valueStr = csvIn.get(column);
-					
-					if(valueStr != null) {
-						valueStr = valueStr.trim();
+					if(column.startsWith("-") || column.startsWith("+")) {
+						boolean minus = column.charAt(0) == '-'; 
+						String valueStr = csvIn.get(column.substring(1));
 						
-						if(!"".equals(valueStr)) {
-							valueCounter++;
+						if(valueStr != null) {
+							valueStr = valueStr.trim();
 							
-							value += numberParsing.parse(valueStr).doubleValue();
+							if(!"".equals(valueStr)) {
+								valueCounter++;
+								
+								if(minus) {
+									value -= numberParsing.parse(valueStr).doubleValue();
+								} else {
+									value += numberParsing.parse(valueStr).doubleValue();
+								}
+							}
 						}
+						// else: ignore value (== 0)
 					}
+					else if(column.startsWith("%")) {
+						String valueStr = csvIn.get(column.substring(1));
+						
+						// is there a column with such a name?
+						if((valueStr == null) || "".equals(valueStr)) {
+							// if not, use value itself
+							valueStr = column.substring(1);
+						}
+						alignment = Double.parseDouble(valueStr);
+					}
+					else {
+						throw new RuntimeException("Invalid format for column. '+'/'-'/'%' as first sign expected for \"" +column +"\"");
+					}
+				}
+				
+				if(alignment != 0.0d) {
+					value = value / alignment;
 				}
 				
 				Integer entry = data.get(value);
@@ -102,6 +136,7 @@ public class Distribution
 				} else {
 					entry++;
 				}
+				
 				data.put(value, entry);
 			}
 			System.out.println(" -> " +lines[0] +" lines with " +valueCounter +" non-empty values");
@@ -121,7 +156,7 @@ public class Distribution
 		java.util.Collections.sort(columns);
 		
 		for(String col : columns) {
-			name.append(col);
+			name.append(col.replaceAll(REMOVE_STRING_IN_OUTPUT_FILENAME, ""));
 			name.append("_");
 		}
 		
@@ -142,7 +177,8 @@ public class Distribution
 		System.out.println("  lang " +OUTPUT_LANGUAGE);
 
 		NumberFormat numberFormater = NumberFormat.getInstance(OUTPUT_LANGUAGE);
-
+		numberFormater.setMaximumFractionDigits(MAX_FRACTION_DIGITS_IN_OUTPUT);
+		
 		List<Double> values = new ArrayList<Double>(distribution.keySet());
 		java.util.Collections.sort(values);
 
