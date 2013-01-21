@@ -5,7 +5,7 @@ import csv
 from optparse import OptionParser
 from pygraph.classes.graph import graph
 import pygraph.algorithms.accessibility as acc
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import gc
 
 def unifyEdges(edges):
@@ -40,7 +40,7 @@ for line in edgeReader:
         duplicate_edges = duplicate_edges + 1
     else:
         gr.add_edge((line["from"], line["to"]))
-print "Removed %d duplicate edges" % duplicate_edges
+print("Removed {0} duplicate edges".format(duplicate_edges))
 
 nodesFile.close()
 edgesFile.close()
@@ -56,30 +56,30 @@ while True:
     hist.append(ccv.count(i))
     i = i + 1
 inetIdx = hist.index(max(hist))
-print "The biggest component (the Internet, #%d) has %d nodes." % (inetIdx, hist[inetIdx])
+print("The biggest component (the Internet, #{0}) has {1} nodes.".format(inetIdx, hist[inetIdx]))
 del hist[inetIdx]
-print "There are %d nodes in %d other components." % (sum(hist), len(hist) - 1),
+print("There are {0} nodes in {1} other components.".format(sum(hist), len(hist) - 1))
 
 if sum(hist) > 0:
-    print "Removing them...",
+    print("Removing them...")
 
     i = 0
     for n in cc:
         if (cc[n] != inetIdx):
             gr.del_node(n)
             i = i + 1
-    print "done."
+    print("done.")
 else: print
 
 outFilename = inFilename + "-ok"
-print "Exporting graph to %s..." % outFilename,
+print("Exporting graph to {0}...".format(outFilename))
 sys.stdout.flush()
 
 nodesFile = open(outFilename + "_nodes.csv", "w")
 edgesFile = open(outFilename + "_edges.csv", "w")
 
-nodeWriter = csv.DictWriter(nodesFile, fieldnames=["IP","Field1","Field2","Field3","ASNumber"])
-edgeWriter = csv.DictWriter(edgesFile, fieldnames=["from","to","InterAS"])
+nodeWriter = csv.DictWriter(nodesFile, lineterminator='\n', fieldnames=["IP","Field1","Field2","Field3","ASNumber"])
+edgeWriter = csv.DictWriter(edgesFile, lineterminator='\n', fieldnames=["from","to","InterAS"])
 
 line = {}
 line["IP"] = "IP"
@@ -111,5 +111,5 @@ for edge in edges:
     line["InterAS"]="0"
     edgeWriter.writerow(line)
 
-print "done."
+print("done.")
 
