@@ -14,4 +14,6 @@ In particular, the repository contains:
   * Example files from various network graph generators (e.g. BRITE)
   * Example files from Internet topology measurement projects (e.g. [DIMES](http://www.netdimes.org))
 * Tools for analysing the statistic files from FoGSiEm
-* Pre-compiled libraries for the video gates which are included in the plug-in "fog.video"
+* Pre-compiled libraries
+  * for video gates, which are included in the plug-in "fog.video"
+  * for Ethernet access, which is included in the plug-in "fog.emulator"
