@@ -1,0 +1,46 @@
+# Aufruf mit: DATEI=hist-success-xxxxxxxx-xxxxxx.csv gnuplot plot-hist
+
+set terminal svg size 500,300 font "Linux Biolinum O,9"
+
+set border 3
+set xtics nomirror
+set ytics nomirror
+set tics out
+
+set key font "Linux Biolinum O,9"
+
+set style fill solid
+set style line 1 lc rgb "black"
+set style line 2 lc rgb "red"
+set style line 3 lc rgb "sienna1"
+set style line 4 lc rgb "green"
+set style line 5 lc rgb "turquoise"
+
+# Hops
+set output "hist-hops.svg"
+set xlabel "Hops" offset 0,.5
+set ylabel "Anzahl" offset 2.5,0
+
+# die folgenden beiden Zeilen manuell anpassen
+set xrange [-.5:7.5]
+set boxwidth 0.1
+
+plot "< cat $DATEI" using ($1):($2) title 'Referenz' with boxes ls 1, \
+              "" using ($1-.3):($6) title 'Globales Rerouting (Daten)' with boxes ls 2, \
+              "" using ($1-.15):($8) title 'Globales Rerouting (Signalisierung)' with boxes ls 3, \
+              "" using ($1+.15):($10) title 'Lokales Rerouting' with boxes ls 4, \
+              "" using ($1+.3):($12) title 'Rerouting ab Detektor' with boxes ls 5
+
+# Gates
+set output "hist-gates.svg"
+set xlabel "Gates"
+
+# die folgenden beiden Zeilen manuell anpassen
+set xrange [-.5:23.5]
+set boxwidth 0.06
+
+plot "< cat $DATEI" using ($1):($3) title 'Referenz' with boxes ls 1, \
+              "" using ($1-.3):($7) title 'Globales Rerouting (Daten)' with boxes ls 2, \
+              "" using ($1-.15):($9) title 'Globales Rerouting (Signalisierung)' with boxes ls 3, \
+              "" using ($1+.15):($11) title 'Lokales Rerouting' with boxes ls 4, \
+              "" using ($1+.3):($13) title 'Rerouting ab Detektor' with boxes ls 5
