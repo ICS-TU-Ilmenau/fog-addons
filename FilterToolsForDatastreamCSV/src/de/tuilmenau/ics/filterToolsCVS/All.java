@@ -11,7 +11,7 @@ package de.tuilmenau.ics.filterToolsCVS;
 
 public class All
 {
-	private static final String NODE_PREFIX = "de.tuilmenau.ics.frogger.topology.Node.";
+	private static final String NODE_PREFIX = "de.tuilmenau.ics.fog.topology.Node.";
 	
 	
 	public static void main(String[] args)
