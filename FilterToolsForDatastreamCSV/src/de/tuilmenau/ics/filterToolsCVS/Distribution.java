@@ -161,7 +161,11 @@ public class Distribution
 				if(first) first = false;
 				else name.append("_");
 				
-				name.append(col.replaceAll(REMOVE_STRING_IN_OUTPUT_FILENAME, ""));
+				if(REMOVE_STRING_IN_OUTPUT_FILENAME != null) {
+					col = col.replaceAll(REMOVE_STRING_IN_OUTPUT_FILENAME, "");
+				}
+				
+				name.append(col);
 			}
 		}
 		
