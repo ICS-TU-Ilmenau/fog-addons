@@ -73,7 +73,7 @@ public class Worker extends Thread
 		}
 		
 		job.param.addLast("-jar");
-		job.param.addLast(".\\" +OSGI_JAR_NAME);
+		job.param.addLast("." +System.getProperty("file.separator") +OSGI_JAR_NAME);
 		job.param.addLast("-console");
 		
 		long startTime = System.currentTimeMillis();
