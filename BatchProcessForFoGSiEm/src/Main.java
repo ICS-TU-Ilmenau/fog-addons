@@ -31,7 +31,7 @@ public class Main
 	
 	private static void error(Exception exc)
 	{
-		System.err.println("command <working directory> <runconfig> <from> <to> [<step size=500> [<command='" +DEFAULT_CMD +"'> [<additional parameter>]]]");
+		System.err.println("command [-verbose] <working directory> <runconfig> <from> <to> [<step size=500> [<command='" +DEFAULT_CMD +"'> [<additional parameter>]]]");
 		System.err.println("example 1: 'c:\\workspace' myrun 1500 3000");
 		System.err.println("example 2: 'c:\\workspace' myrun 1000 1300 100 'start MyCommand'");
 		
@@ -42,13 +42,26 @@ public class Main
 		System.exit(1);
 	}
 	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args)
 	{
+		boolean verbose = false;
+		
 		if(args.length < 4) {
 			error(null);
+		}
+		if("-verbose".equals(args[0])) {
+			if(args.length < 5) {
+				error(null);
+			}
+			
+			verbose = true;
+			
+			// remove "-verbose" from argument list
+			String[] newArgs = new String[args.length -1];
+			for(int i=1; i<args.length; i++) {
+				newArgs[i -1] = args[i];
+			}
+			args = newArgs;
 		}
 		
 		String path = args[0];
@@ -131,7 +144,7 @@ public class Main
 			System.out.println("Starting " +THREADS +" worker");
 			Worker[] worker = new Worker[THREADS];
 			for(int w=0; w<THREADS; w++) {
-				worker[w] = new Worker();
+				worker[w] = new Worker(verbose);
 				worker[w].start();
 			}
 		}

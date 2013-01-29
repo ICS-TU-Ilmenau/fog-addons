@@ -18,11 +18,12 @@ public class Worker extends Thread
 		"java", "-Xms400m", "-Xmx15G" // general cmd prefix
 	};
 	
-	public Worker()
+	public Worker(boolean readCmdOutput)
 	{
 		super();
 		setDaemon(false);
 		
+		this.readCmdOutput = readCmdOutput;
 		workerNumber = new Random().nextInt(1000);
 	}
 	
@@ -34,7 +35,7 @@ public class Worker extends Thread
 			if(job != null) {
 				try {
 					System.out.println(workerNumber +": " +job +" - start");
-					long duration = run(job, Integer.toString(workerNumber));
+					long duration = run(readCmdOutput, job, Integer.toString(workerNumber));
 					
 					System.out.println(workerNumber +": " +job + " - took " +Math.round(((double)duration / 1000.0d) / 60.0d) +" minutes");
 				}
@@ -63,7 +64,7 @@ public class Worker extends Thread
 		
 	}
 
-	private static long run(Job job, String watchdog) throws Exception
+	private static long run(boolean readCmdOutput, Job job, String watchdog) throws Exception
 	{
 		job.param.addFirst("-Dwatchdog=" +watchdog);
 		
@@ -87,6 +88,12 @@ public class Worker extends Thread
 			Process p = null;
 			try {
 				p = builder.start();
+				
+				if(readCmdOutput) {
+					new OutputThread(p.getInputStream()).start();
+					new OutputThread(p.getErrorStream()).start();
+				}
+				
 				p.waitFor();
 			}
 			finally {
@@ -119,5 +126,6 @@ public class Worker extends Thread
 		return System.currentTimeMillis() -startTime;
 	}
 	
+	private boolean readCmdOutput = false;
 	private int workerNumber = -1;
 }
