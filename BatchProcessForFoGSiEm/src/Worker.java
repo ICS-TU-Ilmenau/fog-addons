@@ -11,7 +11,13 @@ public class Worker extends Thread
 	private static final boolean DEBUG = false;
 	
 	private static final String OSGI_JAR_NAME = "org.eclipse.osgi_3.6.1.R36x_v20100806.jar"; 
-
+	
+	private static final String[] CMD_PREFIX = {
+//		"/c", "cmd", // Windows
+		"ionice", "-c3", "schedtool", "-M5", "-n19", "-e", // Linux Server
+		"java", "-Xms400m", "-Xmx15G" // general cmd prefix
+	};
+	
 	public Worker()
 	{
 		super();
@@ -60,11 +66,10 @@ public class Worker extends Thread
 	private static long run(Job job, String watchdog) throws Exception
 	{
 		job.param.addFirst("-Dwatchdog=" +watchdog);
-		job.param.addFirst("-Xmx15G");
-		job.param.addFirst("-Xms400m");
-		job.param.addFirst("java");
-		job.param.addFirst("/c");
-		job.param.addFirst("cmd");
+		
+		for(int i=CMD_PREFIX.length -1; i>=0; i--) {
+			job.param.addFirst(CMD_PREFIX[i]);
+		}
 		
 		job.param.addLast("-jar");
 		job.param.addLast(".\\" +OSGI_JAR_NAME);
