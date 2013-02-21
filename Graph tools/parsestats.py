@@ -30,7 +30,7 @@ reader = csv.DictReader(inFile, fieldnames=inFields, dialect="excel-tab")
 outLine = {}
 pkgIdGlDetect = None
 for line in reader:
-    if line["type"] == "ReroutingPacket":
+    if line["type"] == "ReroutingTestAgent":
         if line["predId"] == "" and line["brokenType"] == BT["nothing"]:
             # reference packet without broken elements
             # first packet of new experiment
@@ -73,9 +73,14 @@ for line in reader:
 # append last outLine
 if len(outLine) > 0: outList.append(outLine)
 
-writer = csv.DictWriter(sys.stdout, fieldnames=outFields, dialect="excel-tab")
+delimiterChar = ';'
+#writer = csv.DictWriter(sys.stdout, fieldnames=outFields, dialect="excel-tab")
+writer = csv.DictWriter(sys.stdout, fieldnames=outFields, lineterminator="\n", delimiter=delimiterChar)
 
-print '\t'.join(outFields)
+
+print delimiterChar.join(outFields)
 for line in outList:
-    writer.writerow(line)
+    if 'detectorHops' in line:
+	# filter out experiments that couldn't be run due to wrong selection of node
+    	writer.writerow(line)
 
