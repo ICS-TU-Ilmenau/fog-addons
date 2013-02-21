@@ -22,6 +22,9 @@ import de.tuilmenau.ics.filterToolsCVS.helper.Averaging;
 
 public class Filter
 {
+	private static final String DIR_FILTER_FILE_ENDING   = ".csv";
+	private static final String DIR_FILTER_FILE_CONTAINS = "EndStatisticWriter";
+	
 	private static final char SEPARATOR = ';';
 	private static final String SEPARATOR_OUT = SEPARATOR +" ";
 	
@@ -36,6 +39,7 @@ public class Filter
 	/**
 	 * Example parameters:
 	 *   "fog\directory\workspace" .AheadOfTime. .DeliveredPackets. .QueueLength.  .PacketsInFlight. .Retransmissions. .RoundTripTime. .DoStepDuration. .DoStepPacketCounter. .vertices .edges .size -i ".Global Routing Service."
+	 *   "fog\directory\workspace" de.tuilmenau.ics.fog.topology.Node.  de.tuilmenau.ics.fog.routing.simulated.PartialRoutingService. -i ".FoG Routing Service." -i .requests -i .instances -i .route.
 	 */
 	public static void main(String[] args)
 	{
@@ -89,7 +93,7 @@ public class Filter
 	
 			try {
 				for(String file : files) {
-					if(file.endsWith(".csv")) {
+					if(file.endsWith(DIR_FILTER_FILE_ENDING) && file.contains(DIR_FILTER_FILE_CONTAINS)) {
 						// ignore filter output files
 						if(!file.endsWith(FILENAME_POSTFIX) && !file.equalsIgnoreCase(FILENAME_SUMMARY)) {
 							filterCSV(path +"\\" +file, filters, includes);
