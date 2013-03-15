@@ -23,7 +23,16 @@ public class Averaging
 		if(counter >= 0) {
 			try {
 				if(value != null) {
-					sum += format.parse(value).doubleValue();
+					double doubleValue = format.parse(value).doubleValue();
+					sum += doubleValue;
+					
+					if((doubleValue < min) || (counter == 0)) {
+						min = doubleValue;
+					}
+					
+					if((doubleValue > max) || (counter == 0)) {
+						max = doubleValue;
+					}
 				}
 				// else: tread it as zero
 				counter++;
@@ -48,14 +57,33 @@ public class Averaging
 		}
 	}
 	
-	public String toString()
+	public double getAverage()
 	{
 		if(counter > 0) {
-			Double average = sum / (double)counter;
-			return format(average);
+			return sum / (double)counter;
 		}
 		else if(counter == 0) {
-			return format(sum);
+			return sum;
+		}
+		else {
+			return Double.NaN;
+		}
+	}
+	
+	public String getDiffToMin()
+	{
+		return format(getAverage() -min);
+	}
+	
+	public String getDiffToMax()
+	{
+		return format(max -getAverage());
+	}
+	
+	public String toString()
+	{
+		if(counter >= 0) {
+			return format(getAverage());
 		}
 		else {
 			return "-";
@@ -63,6 +91,8 @@ public class Averaging
 	}
 	
 	private double sum = 0;
+	private double min = 0;
+	private double max = 0;
 	private int counter = 0;
 	private NumberFormat format;
 }

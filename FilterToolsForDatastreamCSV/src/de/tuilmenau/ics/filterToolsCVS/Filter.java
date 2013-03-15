@@ -8,6 +8,7 @@
  * http://www.gnu.org/licenses/gpl-2.0.txt
  ******************************************************************************/
 package de.tuilmenau.ics.filterToolsCVS;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -20,6 +21,10 @@ import com.csvreader.CsvReader;
 import de.tuilmenau.ics.filterToolsCVS.helper.Averaging;
 
 
+/**
+ * Filters columns of a single CSV file or all CSV files of a directory.
+ * If used for multiple files, it writes a summary file including the average values for all columns.
+ */
 public class Filter
 {
 	private static final String DIR_FILTER_FILE_ENDING   = ".csv";
@@ -237,12 +242,43 @@ public class Filter
 		}
 
 		// write statistic
+		// 1. average
 		StringBuffer dataStr = new StringBuffer();	
 		dataStr.append("Average");
 		dataStr.append(SEPARATOR_OUT);
 
 		for(Object header : headers) {
 			String value = statistic.get(header).toString();
+			
+			dataStr.append(value);
+			dataStr.append(SEPARATOR_OUT);
+		}
+		
+		fw.write(dataStr.toString());
+		fw.write(NEW_LINE);
+		
+		// 2. diff to min
+		dataStr = new StringBuffer();	
+		dataStr.append("Diff to min value");
+		dataStr.append(SEPARATOR_OUT);
+
+		for(Object header : headers) {
+			String value = statistic.get(header).getDiffToMin();
+			
+			dataStr.append(value);
+			dataStr.append(SEPARATOR_OUT);
+		}
+		
+		fw.write(dataStr.toString());
+		fw.write(NEW_LINE);
+		
+		// 3. diff to max
+		dataStr = new StringBuffer();	
+		dataStr.append("Diff to max value");
+		dataStr.append(SEPARATOR_OUT);
+
+		for(Object header : headers) {
+			String value = statistic.get(header).getDiffToMax();
 			
 			dataStr.append(value);
 			dataStr.append(SEPARATOR_OUT);
